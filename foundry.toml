@@ -1,0 +1,17 @@
+[profile.default]
+optimizer_runs = 1000000
+verbosity = 1
+libs = ["lib"]
+fs_permissions = [{ access = "read-write", path = "./"}]
+
+bytecode_hash="none"
+
+[fmt]
+ignore = ["test/libs/SimoConnectLib.t.sol"]
+
+[rpc_endpoints]
+polygon = "${RPC_URL}"
+gnosis = "${RPC_URL}"
+goerli = "${RPC_URL}"
+mumbai = "${RPC_URL}"
+mainnet = "${RPC_URL}"
