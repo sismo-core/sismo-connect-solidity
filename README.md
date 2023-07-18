@@ -23,32 +23,26 @@
   </p>
 </div>
 
-
-Sismo Connect Solidity is a Solidity library that allows you to verify the zk-proofs of your Sismo Connect Application onchain and simplify the use of the [sismo-connect-onchain-verifier](https://github.com/sismo-core/sismo-connect-onchain-verifier).
+Sismo Connect Solidity is a Solidity library that allows you to verify the zk-proofs of your Sismo Connect Application onchain.
 
 Here is the link to the full documentation of the library: [Sismo Connect Solidity Library](https://docs.sismo.io/build-with-sismo-connect/technical-documentation/solidity)
 
-You can learn more on Sismo Connect [here](https://docs.sismo.io/discover-sismo-connect/empower-your-app).
+You can learn more on Sismo Connect [here](https://docs.sismo.io/sismo-docs/build-with-sismo-connect/getting-started).
 
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/en/download/) >= 18.15.0 (Latest LTS version)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install)
 - [Foundry](https://book.getfoundry.sh/)
-
 ## Usage
-
 ### Installation
-
 ```bash
 # update foundry
 foundryup
-
 # install the package
 forge install sismo-core/sismo-connect-solidity --no-commit
-
 # add the remapping in remappings.txt
-echo $'sismo-connect-solidity/=lib/sismo-connect-packages/src/' >> remappings.txt
+echo $'sismo-connect-solidity/=lib/sismo-connect-solidity/src/' >> remappings.txt
 ```
 
 ### Import the library
@@ -56,9 +50,9 @@ In your solidity file:
 
 ```solidity
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.20;
 
-import "sismo-connect-solidity/SismoLib.sol"; // import the library
+import "sismo-connect-solidity/SismoConnectLib.sol"; // import the library
 ```
 
 ## License
