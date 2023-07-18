@@ -6,9 +6,6 @@ fs_permissions = [{ access = "read-write", path = "./"}]
 
 bytecode_hash="none"
 
-[fmt]
-ignore = ["test/libs/SimoConnectLib.t.sol"]
-
 [rpc_endpoints]
 polygon = "${RPC_URL}"
 gnosis = "${RPC_URL}"
