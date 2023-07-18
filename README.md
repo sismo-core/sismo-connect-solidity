@@ -48,7 +48,7 @@ foundryup
 forge install sismo-core/sismo-connect-solidity --no-commit
 
 # add the remapping in remappings.txt
-echo $'sismo-connect-solidity/=lib/sismo-connect-packages/src/' >> remappings.txt
+echo $'sismo-connect-solidity/=lib/sismo-connect-solidity/src/' >> remappings.txt
 ```
 
 ### Import the library
@@ -58,7 +58,7 @@ In your solidity file:
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "sismo-connect-solidity/SismoLib.sol"; // import the library
+import "sismo-connect-solidity/SismoConnectLib.sol"; // import the library
 ```
 
 ## License
