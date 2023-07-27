@@ -6,12 +6,16 @@ fs_permissions = [{ access = "read-write", path = "./"}]
 
 bytecode_hash="none"
 
-[fmt]
-ignore = ["test/libs/SimoConnectLib.t.sol"]
-
 [rpc_endpoints]
-polygon = "${RPC_URL}"
-gnosis = "${RPC_URL}"
-goerli = "${RPC_URL}"
-mumbai = "${RPC_URL}"
-mainnet = "${RPC_URL}"
+arbitrum_one = "https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+arbitrum_goerli = "https://arb-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+goerli = "https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+gnosis = "https://rpc.gnosischain.com"
+localhost = "http://localhost:8545"
+mainnet = "https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+mumbai = "https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+optimism = "https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+optimism_goerli = "https://opt-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+polygon = "https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+scroll_testnet_goerli = "https://alpha-rpc.scroll.io/l2"
+sepolia = "https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}"

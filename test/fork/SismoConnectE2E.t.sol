@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 import "forge-std/console.sol";
 import {TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
-import {BaseTest} from "../base/BaseTest.t.sol";
+import {ForkTest} from "./Fork.t.sol";
 import {CheatSheet} from "test/misc/CheatSheet.sol";
 import {Proofs} from "./proofs/Proofs.sol";
 import {ResponseBuilder, ResponseWithoutProofs} from "test/utils/ResponseBuilderLib.sol";
@@ -18,11 +18,9 @@ import "src/utils/Fmt.sol";
 // E2E tests for SismoConnect Solidity Library
 // These tests are fork tests made with proofs generated from the Vault App
 
-contract SismoConnectE2E is BaseTest {
+contract SismoConnectE2E_ForkTest is ForkTest {
   using ResponseBuilder for SismoConnectResponse;
   using ResponseBuilder for ResponseWithoutProofs;
-
-  Proofs proofs = new Proofs();
 
   SismoConnectHarness sismoConnect;
   address user = 0x7def1d6D28D6bDa49E69fa89aD75d160BEcBa3AE;
@@ -46,6 +44,7 @@ contract SismoConnectE2E is BaseTest {
   ClaimRequest claimRequest;
   AuthRequest authRequest;
   SignatureRequest signature;
+  Proofs proofs;
 
   bytes16 immutable APP_ID_ZK_DROP = 0x11b1de449c6c4adb0b5775b3868b28b3;
   bytes16 immutable SISMO_CONTRIBUTORS_GROUP_ID = 0xe9ed316946d3d98dfcd829a53ec9822e;
@@ -53,11 +52,14 @@ contract SismoConnectE2E is BaseTest {
 
   CheatSheet cheatsheet;
 
-  function setUp() public {
+  function setUp() public virtual override {
+    ForkTest.setUp();
+
     sismoConnect = new SismoConnectHarness(DEFAULT_APP_ID, DEFAULT_IS_IMPERSONATION_MODE);
     claimRequest = sismoConnect.exposed_buildClaim({groupId: 0xe9ed316946d3d98dfcd829a53ec9822e});
     authRequest = sismoConnect.exposed_buildAuth({authType: AuthType.VAULT});
     signature = sismoConnect.exposed_buildSignature({message: abi.encode(user)});
+    proofs = new Proofs();
 
     zkdrop = new ZKDropERC721({
       appId: APP_ID_ZK_DROP,
@@ -73,7 +75,7 @@ contract SismoConnectE2E is BaseTest {
     _registerTreeRoot(proofs.getRoot());
   }
 
-  function test_SismoConnectLibWithOnlyClaimAndMessage() public view {
+  function testFork_SismoConnectLibWithOnlyClaimAndMessage() public view {
     (, bytes memory responseEncoded) = proofs.getResponseWithOneClaimAndSignature();
 
     sismoConnect.exposed_verify({
@@ -85,7 +87,7 @@ contract SismoConnectE2E is BaseTest {
     });
   }
 
-  function test_SismoConnectLibWithTwoClaimsAndMessage() public view {
+  function testFork_SismoConnectLibWithTwoClaimsAndMessage() public view {
     (, bytes memory responseEncoded) = proofs.getResponseWithTwoClaimsAndSignature();
 
     ClaimRequest[] memory claims = new ClaimRequest[](2);
@@ -101,7 +103,7 @@ contract SismoConnectE2E is BaseTest {
     });
   }
 
-  function test_SismoConnectLibWithOnlyOneAuth() public {
+  function testFork_SismoConnectLibWithOnlyOneAuth() public {
     (, bytes memory responseEncoded) = proofs.getResponseWithOnlyOneAuthAndMessage();
 
     SismoConnectRequest memory request = requestBuilder.build({
@@ -116,7 +118,7 @@ contract SismoConnectE2E is BaseTest {
     assertTrue(verifiedResult.auths[0].userId != 0);
   }
 
-  function test_SismoConnectLibWithClaimAndAuth() public {
+  function testFork_SismoConnectLibWithClaimAndAuth() public {
     (, bytes memory responseEncoded) = proofs.getResponseWithOneClaimOneAuthAndOneMessage();
     SismoConnectRequest memory request = requestBuilder.build({
       auth: sismoConnect.exposed_buildAuth({authType: AuthType.VAULT}),
@@ -131,7 +133,7 @@ contract SismoConnectE2E is BaseTest {
     assertTrue(verifiedResult.auths[0].userId != 0);
   }
 
-  function test_ClaimAndAuthWithSignedMessageZKDROP() public {
+  function testFork_ClaimAndAuthWithSignedMessageZKDROP() public {
     // address that reverts if not modulo SNARK_FIELD after hashing the signedMessage for the circuit
     // should keep this address for testing purposes
     user = 0x7def1d6D28D6bDa49E69fa89aD75d160BEcBa3AE;
@@ -144,7 +146,7 @@ contract SismoConnectE2E is BaseTest {
     zkdrop.claimWithSismoConnect(responseEncoded, user);
   }
 
-  function test_TwoClaimsOneVaultAuthWithSignature() public view {
+  function testFork_TwoClaimsOneVaultAuthWithSignature() public view {
     ClaimRequest[] memory claims = new ClaimRequest[](2);
     claims[0] = claimRequestBuilder.build({groupId: 0xe9ed316946d3d98dfcd829a53ec9822e});
     claims[1] = claimRequestBuilder.build({groupId: 0x02d241fdb9d4330c564ffc0a36af05f6});
@@ -167,7 +169,7 @@ contract SismoConnectE2E is BaseTest {
     console.log("Claims in Verified result: %s", verifiedResult.claims.length);
   }
 
-  function test_ThreeClaimsOneVaultAuthWithSignatureOneClaimOptional() public view {
+  function testFork_ThreeClaimsOneVaultAuthWithSignatureOneClaimOptional() public view {
     ClaimRequest[] memory claims = new ClaimRequest[](3);
     claims[0] = claimRequestBuilder.build({groupId: 0xe9ed316946d3d98dfcd829a53ec9822e});
     claims[1] = claimRequestBuilder.build({groupId: 0x02d241fdb9d4330c564ffc0a36af05f6});
@@ -195,7 +197,10 @@ contract SismoConnectE2E is BaseTest {
     console.log("Claims in Verified result: %s", verifiedResult.claims.length);
   }
 
-  function test_ThreeClaimsOneVaultAuthOneTwitterAuthWithSignatureOneClaimOptional() public view {
+  function testFork_ThreeClaimsOneVaultAuthOneTwitterAuthWithSignatureOneClaimOptional()
+    public
+    view
+  {
     ClaimRequest[] memory claims = new ClaimRequest[](3);
     claims[0] = claimRequestBuilder.build({groupId: 0xe9ed316946d3d98dfcd829a53ec9822e});
     claims[1] = claimRequestBuilder.build({groupId: 0x02d241fdb9d4330c564ffc0a36af05f6});
@@ -228,7 +233,7 @@ contract SismoConnectE2E is BaseTest {
     console.log("Claims in Verified result: %s", verifiedResult.claims.length);
   }
 
-  function test_OneClaimOneOptionalTwitterAuthOneGithubAuthWithSignature() public view {
+  function testFork_OneClaimOneOptionalTwitterAuthOneGithubAuthWithSignature() public view {
     ClaimRequest[] memory claims = new ClaimRequest[](1);
     claims[0] = claimRequestBuilder.build({groupId: 0xe9ed316946d3d98dfcd829a53ec9822e});
 
@@ -256,7 +261,7 @@ contract SismoConnectE2E is BaseTest {
     console.log("Claims in Verified result: %s", verifiedResult.claims.length);
   }
 
-  function test_GitHubAuth() public view {
+  function testFork_GitHubAuth() public view {
     (, bytes memory encodedResponse) = proofs.getResponseWithGitHubAuth();
 
     SismoConnectRequest memory request = requestBuilder.build({
@@ -267,7 +272,7 @@ contract SismoConnectE2E is BaseTest {
     sismoConnect.exposed_verify({responseBytes: encodedResponse, request: request});
   }
 
-  function test_GitHubAuthWithoutSignature() public view {
+  function testFork_GitHubAuthWithoutSignature() public view {
     (, bytes memory encodedResponse) = proofs.getResponseWithGitHubAuthWithoutSignature();
 
     SismoConnectRequest memory request = requestBuilder.build({
@@ -277,7 +282,7 @@ contract SismoConnectE2E is BaseTest {
     sismoConnect.exposed_verify({responseBytes: encodedResponse, request: request});
   }
 
-  function test_withProxy() public {
+  function testFork_withProxy() public {
     SignatureRequest memory signatureRequest = sismoConnect.exposed_buildSignature({
       message: abi.encode(user)
     });
@@ -317,7 +322,7 @@ contract SismoConnectE2E is BaseTest {
     upgradeable.exposed_verify({responseBytes: responseEncoded, signature: signatureRequest});
   }
 
-  function test_RevertWithInvalidSismoIdentifier() public {
+  function testFork_RevertWithInvalidSismoIdentifier() public {
     (SismoConnectResponse memory response, ) = proofs.getResponseWithGitHubAuthWithoutSignature();
 
     // specify in the response that the proof comes from a telegram ownership
@@ -339,7 +344,7 @@ contract SismoConnectE2E is BaseTest {
     sismoConnect.exposed_verify({responseBytes: abi.encode(response), request: request});
   }
 
-  function test_CheatSheet() public view {
+  function testFork_CheatSheet() public view {
     bytes memory responseBytes = proofs.getCheatSheetResponse();
     cheatsheet.verifySismoConnectResponse(responseBytes);
   }
