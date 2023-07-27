@@ -24,4 +24,6 @@ jobs:
         run: forge build
 
       - name: Run Forge tests
+        env: 
+          ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
         run: forge test -vvvv
