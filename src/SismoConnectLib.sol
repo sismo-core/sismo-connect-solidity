@@ -3,10 +3,10 @@ pragma solidity ^0.8.17;
 
 import {IAddressesProvider} from "./interfaces/IAddressesProvider.sol";
 import {ISismoConnectVerifier, SismoConnectVerifiedResult} from "./interfaces/ISismoConnectVerifier.sol";
-import {IAuthRequestBuilder, AuthRequest, AuthType} from "./interfaces/IAuthRequestBuilder.sol";
-import {IClaimRequestBuilder, ClaimRequest, ClaimType} from "./interfaces/IClaimRequestBuilder.sol";
-import {ISignatureBuilder, SignatureRequest} from "./interfaces/ISignatureBuilder.sol";
-import {IRequestBuilder, AuthRequest, ClaimRequest, SignatureRequest, SismoConnectRequest} from "./interfaces/IRequestBuilder.sol";
+import {AuthRequestBuilder, AuthRequest, AuthType} from "./utils/AuthRequestBuilder.sol";
+import {ClaimRequestBuilder, ClaimRequest, ClaimType} from "./utils/ClaimRequestBuilder.sol";
+import {SignatureBuilder, SignatureRequest} from "./utils/SignatureBuilder.sol";
+import {RequestBuilder, AuthRequest, ClaimRequest, SignatureRequest, SismoConnectRequest} from "./utils/RequestBuilder.sol";
 
 import {Auth, VerifiedAuth, Claim, VerifiedClaim, Signature, SismoConnectResponse, SismoConnectConfig, VaultConfig} from "./utils/Structs.sol";
 import {SismoConnectHelper} from "./utils/SismoConnectHelper.sol";
@@ -20,10 +20,10 @@ contract SismoConnect {
   ISismoConnectVerifier immutable _sismoConnectVerifier;
 
   // external libraries
-  IAuthRequestBuilder immutable _authRequestBuilder;
-  IClaimRequestBuilder immutable _claimRequestBuilder;
-  ISignatureBuilder immutable _signatureBuilder;
-  IRequestBuilder immutable _requestBuilder;
+  AuthRequestBuilder immutable _authRequestBuilder;
+  ClaimRequestBuilder immutable _claimRequestBuilder;
+  SignatureBuilder immutable _signatureBuilder;
+  RequestBuilder immutable _requestBuilder;
 
   // config
   bytes16 public immutable APP_ID;
@@ -37,16 +37,16 @@ contract SismoConnect {
       ADDRESSES_PROVIDER_V2.get(string("sismoConnectVerifier-v1.2"))
     );
     // external libraries
-    _authRequestBuilder = IAuthRequestBuilder(
+    _authRequestBuilder = AuthRequestBuilder(
       ADDRESSES_PROVIDER_V2.get(string("authRequestBuilder-v1.1"))
     );
-    _claimRequestBuilder = IClaimRequestBuilder(
+    _claimRequestBuilder = ClaimRequestBuilder(
       ADDRESSES_PROVIDER_V2.get(string("claimRequestBuilder-v1.1"))
     );
-    _signatureBuilder = ISignatureBuilder(
+    _signatureBuilder = SignatureBuilder(
       ADDRESSES_PROVIDER_V2.get(string("signatureBuilder-v1.1"))
     );
-    _requestBuilder = IRequestBuilder(ADDRESSES_PROVIDER_V2.get(string("requestBuilder-v1.1")));
+    _requestBuilder = RequestBuilder(ADDRESSES_PROVIDER_V2.get(string("requestBuilder-v1.1")));
   }
 
   // public function because it needs to be used by this contract and can be used by other contracts

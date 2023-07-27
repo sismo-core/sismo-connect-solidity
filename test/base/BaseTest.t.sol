@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
-import {IAddressesProvider} from "src/SismoConnectLib.sol";
+import {IAddressesProvider, AuthRequestBuilder, ClaimRequestBuilder, SignatureBuilder, RequestBuilder} from "src/SismoConnectLib.sol";
 
 interface IAvailableRootsRegistry {
   event RegisteredRoot(uint256 root);
@@ -16,13 +16,21 @@ interface IAvailableRootsRegistry {
 contract BaseTest is Test {
   IAddressesProvider sismoAddressesProvider =
     IAddressesProvider(0x3Cd5334eB64ebBd4003b72022CC25465f1BFcEe6);
-  IAvailableRootsRegistry availableRootsRegistry;
+  IAvailableRootsRegistry availableRootsRegistry =
+    IAvailableRootsRegistry(
+      sismoAddressesProvider.get(string("sismoConnectAvailableRootsRegistry"))
+    );
+
+  AuthRequestBuilder authRequestBuilder =
+    AuthRequestBuilder(sismoAddressesProvider.get(string("authRequestBuilder-v1.1")));
+  ClaimRequestBuilder claimRequestBuilder =
+    ClaimRequestBuilder(sismoAddressesProvider.get(string("claimRequestBuilder-v1.1")));
+  SignatureBuilder signatureBuilder =
+    SignatureBuilder(sismoAddressesProvider.get(string("signatureBuilder-v1.1")));
+  RequestBuilder requestBuilder =
+    RequestBuilder(sismoAddressesProvider.get(string("requestBuilder-v1.1")));
 
   function _registerTreeRoot(uint256 root) internal {
-    // get availableRootsRegistry from the sismoAddressesProvider
-    availableRootsRegistry = IAvailableRootsRegistry(
-      sismoAddressesProvider.get("sismoConnectAvailableRootsRegistry")
-    );
     address rootsRegistryOwner = availableRootsRegistry.owner();
     // prank to the rootsRegistryOwner
     vm.startPrank(rootsRegistryOwner);

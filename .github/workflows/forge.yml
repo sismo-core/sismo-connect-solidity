@@ -24,4 +24,4 @@ jobs:
         run: forge build
 
       - name: Run Forge tests
-        run: forge test --fork-url https://rpc.ankr.com/polygon_mumbai -vvvv
+        run: forge test --fork-url https://gateway.tenderly.co/public/polygon-mumbai -vvvv
