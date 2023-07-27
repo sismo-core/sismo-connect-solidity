@@ -2,13 +2,12 @@
 pragma solidity ^0.8.17;
 
 import "forge-std/console.sol";
-import "src/utils/Fmt.sol";
-import {SismoConnect, RequestBuilder, ClaimRequestBuilder} from "src/SismoConnectLib.sol";
+import {BaseTest} from "test/base/BaseTest.t.sol";
 import {CheatSheet} from "test/misc/CheatSheet.sol";
+import "src/utils/Fmt.sol";
 import "src/utils/Structs.sol";
 import {AuthBuilder} from "src/utils/AuthBuilder.sol";
 import {ClaimBuilder} from "src/utils/ClaimBuilder.sol";
-import {BaseTest} from "test/base/BaseTest.t.sol";
 
 contract CheatSheetTest is BaseTest {
   CheatSheet cheatsheet;
