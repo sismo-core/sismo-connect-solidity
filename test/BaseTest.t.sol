@@ -4,7 +4,7 @@ pragma solidity ^0.8.17;
 import {Test} from "forge-std/Test.sol";
 import {IAddressesProvider} from "src/interfaces/IAddressesProvider.sol";
 import {AddressesProviderMock} from "test/mocks/AddressesProviderMock.sol";
-// import {SismoConnectVerifierMock} from "test/mocks/SismoConnectVerifierMock.sol";
+import {SismoConnectVerifierMock} from "test/mocks/SismoConnectVerifierMock.sol";
 import {AuthRequestBuilder} from "src/utils/AuthRequestBuilder.sol";
 import {ClaimRequestBuilder} from "src/utils/ClaimRequestBuilder.sol";
 import {SignatureBuilder} from "src/utils/SignatureBuilder.sol";
@@ -16,7 +16,7 @@ contract BaseTest is Test {
   address immutable owner = vm.addr(3);
   address immutable sismoAddressProviderV2 = 0x3Cd5334eB64ebBd4003b72022CC25465f1BFcEe6;
 
-  //SismoConnectVerifierMock sismoConnectVerifier;
+  SismoConnectVerifierMock sismoConnectVerifier;
 
   // external libraries
   AuthRequestBuilder authRequestBuilder;
@@ -26,7 +26,7 @@ contract BaseTest is Test {
 
   function setUp() public virtual {
     AddressesProviderMock addressesProviderMock = new AddressesProviderMock();
-    // sismoConnectVerifier = new SismoConnectVerifierMock();
+    sismoConnectVerifier = new SismoConnectVerifierMock();
 
     // external libraries
     authRequestBuilder = new AuthRequestBuilder();
@@ -36,10 +36,10 @@ contract BaseTest is Test {
 
     vm.etch(sismoAddressProviderV2, address(addressesProviderMock).code);
 
-    // IAddressesProvider(sismoAddressProviderV2).set(
-    //   address(sismoConnectVerifier),
-    //   string("sismoConnectVerifier-v1.2")
-    // );
+    IAddressesProvider(sismoAddressProviderV2).set(
+      address(sismoConnectVerifier),
+      string("sismoConnectVerifier-v1.2")
+    );
     IAddressesProvider(sismoAddressProviderV2).set(
       address(authRequestBuilder),
       string("authRequestBuilder-v1.1")
