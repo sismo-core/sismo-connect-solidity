@@ -11,6 +11,7 @@
   },
   "scripts": {
     "test": "forge test",
+    "save-deployments": "./script/bash/save-deployments.sh",
     "lint": "prettier --write **.sol"
   }
 }

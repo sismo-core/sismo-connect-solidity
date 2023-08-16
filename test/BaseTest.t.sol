@@ -14,7 +14,7 @@ contract BaseTest is Test {
   address immutable user1 = vm.addr(1);
   address immutable user2 = vm.addr(2);
   address immutable owner = vm.addr(3);
-  address immutable sismoAddressProviderV2 = 0x3Cd5334eB64ebBd4003b72022CC25465f1BFcEe6;
+  address public immutable SISMO_ADDRESSES_PROVIDER_V2 = 0x3Cd5334eB64ebBd4003b72022CC25465f1BFcEe6;
 
   SismoConnectVerifierMock sismoConnectVerifier;
 
@@ -34,25 +34,25 @@ contract BaseTest is Test {
     signatureBuilder = new SignatureBuilder();
     requestBuilder = new RequestBuilder();
 
-    vm.etch(sismoAddressProviderV2, address(addressesProviderMock).code);
+    vm.etch(SISMO_ADDRESSES_PROVIDER_V2, address(addressesProviderMock).code);
 
-    IAddressesProvider(sismoAddressProviderV2).set(
+    IAddressesProvider(SISMO_ADDRESSES_PROVIDER_V2).set(
       address(sismoConnectVerifier),
       string("sismoConnectVerifier-v1.2")
     );
-    IAddressesProvider(sismoAddressProviderV2).set(
+    IAddressesProvider(SISMO_ADDRESSES_PROVIDER_V2).set(
       address(authRequestBuilder),
       string("authRequestBuilder-v1.1")
     );
-    IAddressesProvider(sismoAddressProviderV2).set(
+    IAddressesProvider(SISMO_ADDRESSES_PROVIDER_V2).set(
       address(claimRequestBuilder),
       string("claimRequestBuilder-v1.1")
     );
-    IAddressesProvider(sismoAddressProviderV2).set(
+    IAddressesProvider(SISMO_ADDRESSES_PROVIDER_V2).set(
       address(signatureBuilder),
       string("signatureBuilder-v1.1")
     );
-    IAddressesProvider(sismoAddressProviderV2).set(
+    IAddressesProvider(SISMO_ADDRESSES_PROVIDER_V2).set(
       address(requestBuilder),
       string("requestBuilder-v1.1")
     );

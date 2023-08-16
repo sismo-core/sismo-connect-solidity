@@ -3,6 +3,7 @@ optimizer_runs = 1000000
 verbosity = 1
 libs = ["lib"]
 fs_permissions = [{ access = "read-write", path = "./"}]
+ffi = true
 
 bytecode_hash="none"
 solc_version="0.8.19"

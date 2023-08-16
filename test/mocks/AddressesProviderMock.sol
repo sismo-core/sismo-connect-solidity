@@ -20,6 +20,22 @@ contract AddressesProviderMock {
     _contractAddresses[contractNameHash] = contractAddress;
   }
 
+  /**
+   * @dev Sets the address of multiple contracts.
+   * @param contractAddresses Addresses of the contracts.
+   * @param contractNames Names of the contracts.
+   */
+  function setBatch(address[] calldata contractAddresses, string[] calldata contractNames) public {
+    require(
+      contractAddresses.length == contractNames.length,
+      "AddressesProviderMock: Arrays must be the same length"
+    );
+
+    for (uint256 i = 0; i < contractAddresses.length; i++) {
+      set(contractAddresses[i], contractNames[i]);
+    }
+  }
+
   function get(string memory contractName) public view returns (address) {
     bytes32 contractNameHash = keccak256(abi.encodePacked(contractName));
 
