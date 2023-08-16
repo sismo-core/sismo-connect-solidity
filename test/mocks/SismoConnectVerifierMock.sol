@@ -8,6 +8,8 @@ contract SismoConnectVerifierMock is ISismoConnectVerifier {
   uint8 public constant IMPLEMENTATION_VERSION = 1;
   bytes32 public immutable SISMO_CONNECT_VERSION = "sismo-connect-v1.1";
 
+  bool public isProofValid = true;
+
   // struct to store informations about the number of verified auths and claims returned
   // indexes of the first available slot in the arrays of auths and claims are also stored
   // this struct is used to avoid stack to deep errors without using via_ir in foundry
@@ -25,11 +27,21 @@ contract SismoConnectVerifierMock is ISismoConnectVerifier {
     VerifiedClaim[] claims;
   }
 
+  error InvalidProof();
+
+  function setIsProofValid(bool _isProofValid) external {
+    isProofValid = _isProofValid;
+  }
+
   function verify(
     SismoConnectResponse memory response,
     SismoConnectRequest memory, // request
     SismoConnectConfig memory // config
   ) external view override returns (SismoConnectVerifiedResult memory) {
+    if (!isProofValid) {
+      revert InvalidProof();
+    }
+
     uint256 responseProofsArrayLength = response.proofs.length;
     VerifiedArraysInfos memory infos = VerifiedArraysInfos({
       nbOfAuths: 0,
