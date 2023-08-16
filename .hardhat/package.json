@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sismo-core/sismo-connect-onchain-verifier.git"
+    "url": "git+https://github.com/sismo-core/sismo-connect-solidity.git"
   },
   "keywords": [
     "solidity",
@@ -18,8 +18,8 @@
   "author": "Sismo <leo@sismo.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sismo-core/sismo-connect-onchain-verifier/issues"
+    "url": "https://github.com/sismo-core/sismo-connect-solidity/issues"
   },
-  "homepage": "https://github.com/sismo-core/sismo-connect-onchain-verifier#readme",
+  "homepage": "https://github.com/sismo-core/sismo-connect-solidity#readme",
   "main": "index.js"
 }

@@ -28,7 +28,7 @@ Sismo Connect Solidity is a Solidity library that allows you to verify the zk-pr
 
 Here is the link to the full documentation of the library: [Sismo Connect Solidity Library](https://docs.sismo.io/build-with-sismo-connect/technical-documentation/solidity)
 
-You can learn more on Sismo Connect [here](hhttps://docs.sismo.io/sismo-docs/build-with-sismo-connect/getting-started).
+You can learn more on Sismo Connect [here](https://docs.sismo.io/sismo-docs/build-with-sismo-connect/getting-started).
 
 ### Prerequisites
 
