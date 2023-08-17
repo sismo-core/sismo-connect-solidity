@@ -30,18 +30,20 @@ contract BaseDeploymentConfig is Script {
       _compareStrings(chainName, "polygon") ||
       _compareStrings(chainName, "optimism") ||
       _compareStrings(chainName, "arbitrum-one") ||
+      _compareStrings(chainName, "base") ||
       _compareStrings(chainName, "testnet-goerli") ||
       _compareStrings(chainName, "testnet-sepolia") ||
       _compareStrings(chainName, "testnet-mumbai") ||
       _compareStrings(chainName, "optimism-goerli") ||
       _compareStrings(chainName, "arbitrum-goerli") ||
+      _compareStrings(chainName, "base-goerli") ||
       _compareStrings(chainName, "scroll-testnet-goerli") ||
       _compareStrings(chainName, "staging-goerli") ||
       _compareStrings(chainName, "staging-mumbai") ||
       _compareStrings(chainName, "test")
     ) {
       config = _readDeploymentConfig(
-        string.concat(vm.projectRoot(), "/deployments/", chainName, "/run-latest.json")
+        string.concat(vm.projectRoot(), "/deployments/", chainName, ".json")
       );
     } else {
       revert ChainNameNotFound(chainName);
