@@ -37,13 +37,12 @@ contract BaseDeploymentConfig is Script {
       _compareStrings(chainName, "arbitrum-goerli") ||
       _compareStrings(chainName, "scroll-testnet-goerli") ||
       _compareStrings(chainName, "staging-goerli") ||
-      _compareStrings(chainName, "staging-mumbai")
+      _compareStrings(chainName, "staging-mumbai") ||
+      _compareStrings(chainName, "test")
     ) {
       config = _readDeploymentConfig(
-        string.concat(vm.projectRoot(), "/deployments/", chainName, ".json")
+        string.concat(vm.projectRoot(), "/deployments/", chainName, "/run-latest.json")
       );
-    } else if (_compareStrings(chainName, "test")) {
-      config = DeploymentConfig(address(0), address(0), address(0), address(0));
     } else {
       revert ChainNameNotFound(chainName);
     }
@@ -100,15 +99,7 @@ contract BaseDeploymentConfig is Script {
 
     vm.writeJson(
       finalJson,
-      string.concat(
-        vm.projectRoot(),
-        "/deployments/tmp/",
-        chainName,
-        "/logs",
-        "-",
-        Strings.toString(block.timestamp),
-        ".json"
-      )
+      string.concat(vm.projectRoot(), "/deployments/tmp/", chainName, "/run-latest.json")
     );
   }
 
