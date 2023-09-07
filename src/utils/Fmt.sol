@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "./Structs.sol";
 import "forge-std/console.sol";
+import "./Structs.sol";
 
 library fmt {
   function printAuthRequest(AuthRequest memory auth, string memory indication) external view {

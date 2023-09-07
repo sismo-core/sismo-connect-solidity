@@ -14,6 +14,7 @@ lib
 .hardhat/contracts
 
 # Deployment files
-**deployments/test.json
+deployments/test.json
+**deployments/test/*.json
 **/tmp/*
 !**/tmp/example.json

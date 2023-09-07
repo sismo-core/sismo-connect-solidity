@@ -24,4 +24,6 @@ jobs:
         run: forge build
 
       - name: Run Forge tests
-        run: forge test --fork-url https://rpc.ankr.com/polygon_mumbai -vvvv
+        env: 
+          ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
+        run: forge test -vvvv

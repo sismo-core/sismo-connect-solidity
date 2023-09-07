@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import {RequestBuilder, SismoConnectRequest, SismoConnectResponse, SismoConnectConfig} from "./utils/RequestBuilder.sol";
-import {AuthRequestBuilder, AuthRequest, Auth, VerifiedAuth, AuthType} from "./utils/AuthRequestBuilder.sol";
-import {ClaimRequestBuilder, ClaimRequest, Claim, VerifiedClaim, ClaimType} from "./utils/ClaimRequestBuilder.sol";
-import {SignatureBuilder, SignatureRequest, Signature} from "./utils/SignatureBuilder.sol";
-import {VaultConfig} from "./utils/Structs.sol";
-import {ISismoConnectVerifier, SismoConnectVerifiedResult} from "./interfaces/ISismoConnectVerifier.sol";
 import {IAddressesProvider} from "./interfaces/IAddressesProvider.sol";
+import {ISismoConnectVerifier, SismoConnectVerifiedResult} from "./interfaces/ISismoConnectVerifier.sol";
+import {AuthRequestBuilder, AuthRequest, AuthType} from "./utils/AuthRequestBuilder.sol";
+import {ClaimRequestBuilder, ClaimRequest, ClaimType} from "./utils/ClaimRequestBuilder.sol";
+import {SignatureBuilder, SignatureRequest} from "./utils/SignatureBuilder.sol";
+import {RequestBuilder, AuthRequest, ClaimRequest, SignatureRequest, SismoConnectRequest} from "./utils/RequestBuilder.sol";
+
+import {Auth, VerifiedAuth, Claim, VerifiedClaim, Signature, SismoConnectResponse, SismoConnectConfig, VaultConfig} from "./utils/Structs.sol";
 import {SismoConnectHelper} from "./utils/SismoConnectHelper.sol";
 
 contract SismoConnect {
